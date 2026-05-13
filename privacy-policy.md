@@ -1,6 +1,6 @@
 # Privacy Policy — Beekeeper's Journal
 
-**Effective date:** May 15, 2026
+**Effective date:** May 13, 2026
 **App:** Beekeeper's Journal (Android)
 **Developer:** Christopher Wood (plainsightlogic@gmail.com)
 **Published version:** This document is the source of truth. The publicly hosted copy lives at <https://thecloudix.github.io/BeeKeepers-Journal-Docs/> and is synced automatically from this file.
@@ -103,6 +103,4 @@ Questions or concerns about this policy or the app's privacy practices: **plains
 |------------|----------------------------------------------------------------------------------------------|
 | 2026-05-09 | Initial policy. Covers v0.1.0 release, including the optional per-hive location pin feature. |
 | 2026-05-12 | Added the disease-treatment log feature, the POST_NOTIFICATIONS permission, and a new "Local notifications" section describing the on-device treatment-reminder behavior. No network or third-party push service is involved. |
-| 2026-05-13 | Added per-hive next-inspection reminders. Same POST_NOTIFICATIONS permission and same on-device WorkManager mechanism — extended the "Local notifications" section to describe both kinds of reminders. No new data is collected or transmitted. |
-| 2026-05-14 | Added the hive QR scanner. CAMERA permission is now requested at runtime when you tap "Scan hive QR" so the app can decode a printed hive label with the bundled ZXing library; no frames or photos are stored or transmitted. Added ZXing Android Embedded to the third-party components list. |
-| 2026-05-15 | Updated the developer contact email from `thecloudix@gmail.com` to `plainsightlogic@gmail.com`. No change to data handling. |
+| 2026-05-13 | Added per-hive next-inspection reminders (same POST_NOTIFICATIONS permission and same on-device WorkManager mechanism); added the hive QR scanner, which is now the only feature that uses the CAMERA permission (requested at runtime when you tap "Scan hive QR", frames decoded locally by ZXing, nothing stored or transmitted); added ZXing Android Embedded to the third-party components list; updated the developer contact email to `plainsightlogic@gmail.com`. No change to data handling. |
