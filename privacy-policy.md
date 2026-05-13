@@ -3,7 +3,7 @@
 **Effective date:** May 15, 2026
 **App:** Beekeeper's Journal (Android)
 **Developer:** Christopher Wood (plainsightlogic@gmail.com)
-**Published version:** This document is the source of truth. The publicly hosted copy lives at <https://thecloudix.github.io/BeeKeepers-Journal-Privacy/> and is synced from this file.
+**Published version:** This document is the source of truth. The publicly hosted copy lives at <https://thecloudix.github.io/BeeKeepers-Journal-Docs/> and is synced automatically from this file.
 
 This policy describes how Beekeeper's Journal (the "app") handles your information.
 
