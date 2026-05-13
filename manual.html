@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beekeeper's Journal — User Manual</title>
+<style>
+  :root {
+    --bg: #fbf6ec;
+    --surface: #ffffff;
+    --ink: #1a1612;
+    --muted: #6b5c47;
+    --rule: #e5d8bf;
+    --accent: #b58a3e;
+    --accent-soft: #f2e2bc;
+    --code-bg: #fff4d6;
+    --warn: #8a3a17;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.55;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+  header.site {
+    background: var(--accent);
+    color: #fffaef;
+    padding: 28px 24px;
+  }
+  header.site h1 { margin: 0; font-size: 28px; letter-spacing: 0.2px; }
+  header.site .sub { opacity: 0.92; margin-top: 4px; font-size: 14px; }
+
+  .wrap {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  nav.toc {
+    position: sticky;
+    top: 16px;
+    align-self: start;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+  }
+  nav.toc h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin: 0 0 8px; }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; }
+  nav.toc li { margin: 4px 0; }
+  nav.toc a { color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+
+  main { min-width: 0; }
+  main section {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+  }
+  main h2 {
+    margin: 0 0 14px;
+    font-size: 22px;
+    color: var(--accent);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+  }
+  main h3 { margin: 18px 0 6px; font-size: 16px; }
+  main p, main ul, main ol { margin: 8px 0; }
+  main ul, main ol { padding-left: 22px; }
+  main li { margin: 4px 0; }
+  main hr { border: 0; border-top: 1px solid var(--rule); margin: 16px 0; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+  }
+  .callout.warn { border-left-color: var(--warn); background: #f6e2da; }
+  .step {
+    counter-reset: step;
+    list-style: none;
+    padding-left: 0;
+  }
+  .step li {
+    counter-increment: step;
+    padding-left: 32px;
+    position: relative;
+    margin: 10px 0;
+  }
+  .step li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fffaef;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { background: var(--accent-soft); color: var(--ink); font-weight: 600; }
+  footer.site {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 24px;
+    border-top: 1px solid var(--rule);
+    margin-top: 16px;
+  }
+
+  @media (max-width: 820px) {
+    .wrap { grid-template-columns: 1fr; padding: 16px; }
+    nav.toc { position: static; max-height: none; }
+    main section { padding: 18px 18px; }
+  }
+  @media print {
+    body { background: white; }
+    nav.toc { display: none; }
+    .wrap { grid-template-columns: 1fr; max-width: none; padding: 0; }
+    main section { border: 0; box-shadow: none; page-break-inside: avoid; padding: 12px 0; }
+    header.site { background: white; color: var(--ink); border-bottom: 2px solid var(--ink); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>Beekeeper's Journal — User Manual</h1>
+  <div class="sub">Version 0.3.10 · Android · Offline-first beekeeping notebook</div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#quickstart">Quick start</a></li>
+    <li><a href="#home">Home screen</a></li>
+    <li><a href="#hives">Hives</a></li>
+    <li><a href="#inspections">Inspections</a></li>
+    <li><a href="#harvests">Harvests</a></li>
+    <li><a href="#feed">Feed recipes &amp; feedings</a></li>
+    <li><a href="#treatments">Treatments</a></li>
+    <li><a href="#diseases">Disease library</a></li>
+    <li><a href="#calendar">Hive calendar</a></li>
+    <li><a href="#reminders">Reminders &amp; notifications</a></li>
+    <li><a href="#qr">QR labels</a></li>
+    <li><a href="#backup">Backup &amp; restore</a></li>
+    <li><a href="#settings">Settings</a></li>
+    <li><a href="#privacy">Privacy &amp; permissions</a></li>
+    <li><a href="#troubleshoot">Troubleshooting</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section id="quickstart">
+  <h2>1. Quick start</h2>
+  <p>Beekeeper's Journal is a fully offline notebook for managing your hives. There are no accounts, no ads, and no tracking. Everything stays on your device unless you choose to export a backup.</p>
+  <ol class="step">
+    <li><strong>Add your first hive.</strong> On the home screen, tap the <code>+</code> icon in the top bar. Give the hive a name (it'll later show on calendars, QR labels, and reminders).</li>
+    <li><strong>Log an inspection.</strong> Open a hive from the list, then tap <em>Log inspection for this hive</em>. Fill in what you observed and tap <em>Save inspection</em>.</li>
+    <li><strong>Schedule the next check.</strong> From the home screen Quick actions, tap <em>Schedule next inspection</em>, pick a date, check the hives the reminder applies to, then tap <em>Schedule</em>. A local notification fires on that day for each selected hive.</li>
+    <li><strong>Back up your data periodically.</strong> Open <em>Settings → Data backup → Export backup</em>. You'll get a ZIP you can put in cloud storage or email yourself.</li>
+  </ol>
+</section>
+
+<section id="home">
+  <h2>2. Home screen</h2>
+  <p>The home screen lists every hive you've added. Tap a hive's card to open its detail page.</p>
+  <p>Both the <strong>Hives</strong> list and the <strong>Quick actions</strong> list are collapsible — tap a section header to fold it shut, tap again to reopen. Useful if you have a lot of hives and want quick actions in reach without scrolling. The collapsed state is remembered across app launches.</p>
+
+  <h3>Top bar icons</h3>
+  <table>
+    <tr><th>Icon</th><th>What it does</th></tr>
+    <tr><td>? <em>Manual</em></td><td>Opens this user manual in your browser. Requires a network connection.</td></tr>
+    <tr><td><code>+</code></td><td>Add a new hive. A dialog asks for the name.</td></tr>
+    <tr><td>⚙ <em>Settings</em></td><td>Opens the app's Settings (theme, units, backup).</td></tr>
+    <tr><td>↪ <em>Close app</em></td><td>Fully exits the app — the activity is finished and the process is killed. Use this if you've staged a backup import (so the next launch applies it cleanly).</td></tr>
+  </table>
+
+  <h3>Quick actions</h3>
+  <p>Below the hive list:</p>
+  <ul>
+    <li><strong>Scan hive QR</strong> — opens the camera scanner to read a printed hive QR. Lands you straight on that hive's detail page.</li>
+    <li><strong>Schedule next inspection</strong> — pick a date and check the hives the reminder should apply to. Lets you set the same reminder across many hives at once instead of one at a time. Any existing reminder on a selected hive is replaced.</li>
+    <li><strong>Log inspection</strong> — opens the inspection form (you'll pick a hive inside).</li>
+    <li><strong>Log harvest</strong> — opens the harvest form.</li>
+    <li><strong>Feed recipes</strong> — opens the recipe list with the built-in calculator.</li>
+    <li><strong>Disease library</strong> — opens the curated disease reference.</li>
+    <li><strong>Upcoming reminders <em>(count)</em></strong> — pending treatment doses and scheduled inspection reminders, in one inbox. The number badge updates live.</li>
+    <li><strong>View hives on map</strong> — shows every hive that has a location pin on a map.</li>
+  </ul>
+</section>
+
+<section id="hives">
+  <h2>3. Hives</h2>
+  <p>Each hive has its own detail page with four tabs and a row of "Log …" buttons at the top.</p>
+
+  <h3>Top bar</h3>
+  <ul>
+    <li><strong>Back</strong> — return to home.</li>
+    <li><strong>Calendar</strong> — opens the per-hive month calendar.</li>
+    <li><strong>Settings</strong> — opens this hive's settings (rename, QR label, location, delete).</li>
+  </ul>
+
+  <h3>Log buttons</h3>
+  <p>The top of the page has four elevated buttons:</p>
+  <ul>
+    <li><strong>Log inspection for this hive</strong></li>
+    <li><strong>Log harvest for this hive</strong></li>
+    <li><strong>Log feeding for this hive</strong></li>
+    <li><strong>Log treatment for this hive</strong></li>
+  </ul>
+  <p>If a next-inspection reminder is set for this hive (from the home screen Quick action), the date is shown as a small line under the log buttons.</p>
+
+  <h3>Tabs</h3>
+  <p>Inspections / Harvests / Feedings / Treatments. Each shows the count and lists every record for this hive. Tap a row to open its detail screen; the overflow menu on each row offers a Delete with confirmation.</p>
+
+  <h3>Hive Settings</h3>
+  <p>The gear icon opens Hive Settings, which has four sections:</p>
+  <ul>
+    <li><strong>Hive name</strong> — rename the hive. Save name is enabled when the text differs from the current name.</li>
+    <li><strong>QR label</strong> — see <a href="#qr">QR labels</a>.</li>
+    <li><strong>Location</strong> — pick a pin on a map, use your current location, or look up an address. The pin is private to your device.</li>
+    <li><strong>Danger zone — Delete this hive</strong> — permanently removes the hive plus every inspection, photo, harvest, feeding, treatment record, and scheduled reminder attached to it. A confirmation dialog warns first. This can't be undone.</li>
+  </ul>
+</section>
+
+<section id="inspections">
+  <h2>4. Inspections</h2>
+  <p>An inspection is the canonical record of "what I saw inside hive X on day Y."</p>
+
+  <h3>Logging a new one</h3>
+  <ol class="step">
+    <li>Tap <em>Log inspection for this hive</em> (or the home <em>Log inspection</em> quick action and pick a hive).</li>
+    <li>Fill in the form. Every field is optional except the hive.</li>
+    <li>Tap <em>Save inspection</em>.</li>
+  </ol>
+
+  <h3>Form fields</h3>
+  <table>
+    <tr><th>Section</th><th>Fields</th></tr>
+    <tr><td>Hive &amp; timing</td><td>Optional <strong>Name</strong> (shown next to the date — e.g. "Spring buildup check"), <strong>Date</strong>, Hive picker, Duration (min).</td></tr>
+    <tr><td>Brood &amp; population</td><td><strong>Eggs observed</strong> checkbox at the top, <strong>Broodless</strong> Switch (flip ON when there's no brood present — winter or post-package window; useful for oxalic-acid timing), Brood pattern, Population strength.</td></tr>
+    <tr><td>Food stores</td><td>Honey stores, Pollen stores (each: low / moderate / abundant).</td></tr>
+    <tr><td>Temperament</td><td>Dropdown: Normal · Slightly defensive · Highly defensive — take action · Erratic — move/check queen status.</td></tr>
+    <tr><td>Queen</td><td>Queen sighted, Queen status, <strong>Queen cells present</strong> checkbox, <strong>Queen cells — action</strong> dropdown (No action needed / Reduce cells / Swarm control needed / Potential supersedure cells / Kill queen / replace).</td></tr>
+    <tr><td>Disease &amp; pest observations</td><td>Free-text. Tap <strong>Reference disease library</strong> to open a bottom sheet of curated entries; tapping a disease appends its name to the field and closes the sheet so you can keep typing.</td></tr>
+    <tr><td>Actions taken</td><td>Free-text for treatments, splits, frame additions, etc.</td></tr>
+    <tr><td>Photos</td><td>Tap <em>Add photo</em> to attach images via the system photo picker. Each thumbnail has an <code>X</code> to remove it.</td></tr>
+    <tr><td>Weather</td><td>Weather text (e.g. "sunny, light breeze") and Temperature °F. Lives at the bottom of the form so it's the last thing you fill in.</td></tr>
+  </table>
+
+  <h3>Editing an inspection</h3>
+  <p>From the inspection detail page, tap the pencil <em>Edit</em> icon in the top bar. The same form opens with all fields and photos pre-loaded. Changes — including adding or removing photos — are saved when you tap <em>Save changes</em>. Removing a photo deletes the file from your device immediately.</p>
+
+  <h3>Deleting</h3>
+  <p>Inspection detail's trash icon (or the row's overflow menu on a hive's Inspections tab) deletes the inspection and its photos with a confirmation.</p>
+</section>
+
+<section id="harvests">
+  <h2>5. Harvests</h2>
+  <p>A harvest records what came out of a hive — honey, pollen, wax, propolis, or anything else you type.</p>
+  <ol class="step">
+    <li>Tap <em>Log harvest</em> from home or <em>Log harvest for this hive</em> from a hive.</li>
+    <li>Pick the hive, the type, an amount, and a unit (lb, kg, frames, etc.).</li>
+    <li>Save. The entry shows in the hive's <em>Harvests</em> tab and on the hive calendar.</li>
+  </ol>
+  <p>Tap a harvest row to view detail; the trash icon deletes it.</p>
+</section>
+
+<section id="feed">
+  <h2>6. Feed recipes &amp; feedings</h2>
+  <p>Open <em>Feed recipes</em> from the home quick actions. Four curated recipes ship with the app:</p>
+  <ul>
+    <li><strong>1:1 sugar syrup</strong> (spring / summer stimulative)</li>
+    <li><strong>2:1 sugar syrup</strong> (fall winter-prep)</li>
+    <li><strong>Winter sugar block / candy board</strong> (winter emergency)</li>
+    <li><strong>Pollen substitute patty</strong> (early-spring build-up)</li>
+  </ul>
+
+  <h3>Built-in calculator</h3>
+  <p>Each recipe's detail screen lists ingredients with editable quantity fields. Change <em>any</em> ingredient and the others scale automatically to keep the ratio. Units come from your Settings choice (US: lb/oz, cups/pints/gal · Metric: g/kg, mL/L). Water-like ingredients display by volume; dry ingredients by weight.</p>
+  <p>Tap the refresh icon in the top bar to reset to the recipe's default 1× amounts.</p>
+
+  <h3>Logging a feeding</h3>
+  <ol class="step">
+    <li>Adjust the ingredient amounts to what you actually mixed.</li>
+    <li>Tap <em>Log this feeding</em>.</li>
+    <li>Pick the hive (pre-selected if you arrived via <em>Log feeding for this hive</em>).</li>
+    <li>Pick the date (defaults to today; can be back-dated or future-dated).</li>
+    <li>Add optional notes and tap <em>Save feeding</em>.</li>
+  </ol>
+  <p>The feeding appears on the hive's <em>Feedings</em> tab and as a day-dot on the hive calendar.</p>
+</section>
+
+<section id="treatments">
+  <h2>7. Treatments</h2>
+  <p>The treatment library is curated against the Mann Lake Varroa chart plus reference protocols for AFB, Nosema, and Small Hive Beetle.</p>
+
+  <h3>Starting a treatment</h3>
+  <ol class="step">
+    <li>From the home screen, open <em>Disease library</em> (or from a hive's page tap <em>Log treatment for this hive</em>, which pre-selects the hive throughout the flow).</li>
+    <li>Pick a disease (e.g. <em>Varroa Mites</em>) and tap <em>Available treatments</em>.</li>
+    <li>Pick a protocol (e.g. <em>Apivar</em>, <em>Apiguard</em>, <em>Oxalic acid vapor</em>).</li>
+    <li>Review the dosing schedule, temperature range, honey-super safety note, and any usage notes.</li>
+    <li>Tap <em>Start treatment for hive…</em>. Pick the hive, pick a <strong>start date</strong> (today or any future date), add an optional note, and tap <em>Start</em> or <em>Schedule</em>.</li>
+  </ol>
+
+  <h3>What happens on start</h3>
+  <ul>
+    <li>If the start date is <strong>today</strong>: dose 1 is recorded as <em>applied</em> right now. Doses 2..N (if the protocol is multi-dose) become pending at the protocol's interval.</li>
+    <li>If the start date is in the <strong>future</strong>: dose 1 becomes pending at that date and time. Doses 2..N follow the interval from there.</li>
+    <li>For every pending dose, a local reminder is scheduled. You'll get a notification on the scheduled day.</li>
+  </ul>
+
+  <h3>Confirming or cancelling pending doses</h3>
+  <p>Open <em>Upcoming reminders</em> from the home screen. Pending doses appear with two buttons:</p>
+  <ul>
+    <li><strong>Confirm</strong> — marks the dose as applied at the current time. It moves onto the hive's calendar and into the Treatments tab.</li>
+    <li><strong>Cancel</strong> — removes the dose entirely (with a confirmation). The reminder won't fire and the dose won't appear in any history.</li>
+  </ul>
+  <p>You'll also see the next-inspection reminders here when one is set; tap <em>Open hive</em> or <em>Dismiss</em>.</p>
+
+  <h3>Reference only</h3>
+  <p>Treatment summaries are educational — many products are regulated and require veterinary or extension authorization. Always follow product labels and your local rules.</p>
+</section>
+
+<section id="diseases">
+  <h2>8. Disease library</h2>
+  <p>The curated library covers common bee diseases and pests with reference photos where licensing allows. Sources include USDA ARS, Penn State Extension, Oklahoma State Extension, and the Alberta Government.</p>
+  <ul>
+    <li><strong>Search</strong> by name, symptom, or pest.</li>
+    <li><strong>Filter</strong> by severity and life stage.</li>
+    <li>Tap an entry for the full detail page: scientific name, symptoms, treatment options, reference photos (tap to zoom), source attribution, and a disclaimer.</li>
+    <li><strong>Available treatments</strong> on the disease page opens the curated treatment protocols for that disease.</li>
+  </ul>
+  <p>You can also open the library from the inspection form (the <em>Reference disease library</em> button), where tapping a disease appends its name to the observations field.</p>
+</section>
+
+<section id="calendar">
+  <h2>9. Hive calendar</h2>
+  <p>The calendar icon on a hive's page opens a per-hive month view. Days with any record are dotted. Inspections, harvests, feedings, and <em>applied</em> treatment doses all show. Pending treatment doses do not appear here — they live in <em>Upcoming reminders</em> until you confirm them.</p>
+  <ul>
+    <li>Tap a day to drill in to the entries on that day.</li>
+    <li>Tap a card on the day view to open that entry's detail screen.</li>
+    <li>The Today icon in the top bar jumps back to today.</li>
+  </ul>
+</section>
+
+<section id="reminders">
+  <h2>10. Reminders &amp; notifications</h2>
+  <p>The app sends two kinds of local notifications. <strong>Local</strong> means the notification is generated on your device — there is no push server.</p>
+
+  <h3>Treatment-dose reminders</h3>
+  <p>When you start a multi-dose treatment, each follow-on dose is scheduled. The device fires a notification on the scheduled date.</p>
+
+  <h3>Next-inspection reminders</h3>
+  <p>The <em>Schedule next inspection</em> Quick action on the home screen lets you pick a date and check one or more hives. The device fires a notification on that day for each selected hive. Scheduling for a hive that already has a reminder replaces the previous one.</p>
+
+  <h3>What time does the reminder fire?</h3>
+  <p>Both kinds fire at <strong>the same time of day you set them</strong>. If you scheduled at 3:14 PM today, the reminder fires at 3:14 PM on the chosen day. WorkManager (Android's job scheduler) can defer the actual firing by a few minutes — up to about 15 — when the device is in deep Doze. For "remind me on Thursday" that's invisible; for exact-minute precision, this app doesn't support that yet.</p>
+
+  <h3>Permission</h3>
+  <p>On Android 13+ the app requests <strong>POST_NOTIFICATIONS</strong> on first launch. If you deny it, schedules are still kept locally — pending doses stay in <em>Upcoming reminders</em>, the inspection date stays in Hive Settings — but no banner appears.</p>
+
+  <h3>Channels</h3>
+  <p>Two notification channels exist so you can mute one independently in Android Settings → Apps → Beekeeper's Journal → Notifications. Both are set to high importance so reminders pop as a heads-up banner with sound — they won't sit silently in the tray.</p>
+  <ul>
+    <li><strong>Treatment reminders</strong></li>
+    <li><strong>Inspection reminders</strong></li>
+  </ul>
+  <p>If you've used Beekeeper's Journal before 0.3.9 you may still see older "v1" copies of these channels listed in OS settings — those don't get any new notifications and can be left alone or hidden by toggling them off.</p>
+</section>
+
+<section id="qr">
+  <h2>11. QR labels</h2>
+  <p>For larger operations, you can stick a printed QR label on each hive and pull it up in the app by scanning.</p>
+
+  <h3>Print a label</h3>
+  <ol class="step">
+    <li>Open the hive you want to label.</li>
+    <li>Tap the gear icon → <em>QR label</em> card.</li>
+    <li>You'll see the QR rendered with the hive name beneath it and the encoded URI in small text (<code>beekeepersjournal://hive/&lt;name&gt;</code>).</li>
+    <li>Tap <em>Print label</em> to launch the Android system print dialog (monochrome, portrait, fit-to-page).</li>
+  </ol>
+
+  <h3>Scan a label</h3>
+  <ol class="step">
+    <li>From the home screen, tap <em>Scan hive QR</em>.</li>
+    <li>Aim at the printed label. The scanner closes automatically when it decodes a code.</li>
+    <li>If the code is one of yours, the app navigates straight to that hive.</li>
+  </ol>
+  <p>If the QR isn't one this app generated, or doesn't match any current hive, you'll see a snackbar explaining which.</p>
+
+  <div class="callout warn">
+    <strong>Renaming a hive invalidates its printed labels.</strong> The QR encodes the hive's current name, so if you rename <em>Apiary 1</em> to <em>North Yard</em>, the old printed label won't scan to that hive anymore. Reprint after renaming.
+  </div>
+</section>
+
+<section id="backup">
+  <h2>12. Backup &amp; restore</h2>
+  <p>Open <em>Settings → Data backup</em>. Two buttons: <em>Export backup</em> and <em>Import backup</em>.</p>
+
+  <h3>What's in a backup</h3>
+  <p>A backup is a ZIP file containing:</p>
+  <ul>
+    <li>A <code>manifest.json</code> with the app version, schema version, and export timestamp.</li>
+    <li>The SQLite database file (every hive, inspection, harvest, feeding, treatment, and notes — committed cleanly with a WAL checkpoint).</li>
+    <li>All your inspection photo files.</li>
+  </ul>
+
+  <h3>Export</h3>
+  <ol class="step">
+    <li>Tap <em>Export backup</em>.</li>
+    <li>Android's document picker opens with a default filename like <code>beekeepers-journal-backup-2026-05-15.zip</code>. Choose a location — internal storage, an SD card, Google Drive, Dropbox, etc.</li>
+    <li>A snackbar confirms the size when the export completes.</li>
+  </ol>
+
+  <h3>Import (e.g. after a reinstall)</h3>
+  <ol class="step">
+    <li>Tap <em>Import backup</em> and pick the ZIP.</li>
+    <li>Confirm the destructive-action dialog. Importing replaces every hive and record currently in the app.</li>
+    <li>The "Backup staged" dialog appears. Tap <strong>Restart now</strong>. The app relaunches.</li>
+    <li>On the next launch you'll see a toast: "Backup restored — your hives are loaded."</li>
+  </ol>
+  <div class="callout">
+    <strong>Why a restart?</strong> The app applies the staged backup during <code>Application.onCreate()</code>, before the database is opened. Restarting guarantees a fresh cold start, which is the cleanest way to swap the live DB.
+  </div>
+  <div class="callout warn">
+    <strong>Schema check.</strong> A backup made by a newer app version than this one supports will be rejected with a message. Update the app and try again. Older backups are accepted; Room migrations run automatically.
+  </div>
+</section>
+
+<section id="settings">
+  <h2>13. Settings</h2>
+
+  <h3>Appearance</h3>
+  <p>Choose a theme: Light, Dark, System (follows your device's dark mode), Honey (the amber palette this app launched with), or Material You (dynamic colors from your wallpaper — Android 12+).</p>
+
+  <h3>Units</h3>
+  <p>US (lb/oz, cups/pints/gal) or Metric (g/kg, mL/L). Affects the feed-recipe calculator and any quantity display.</p>
+
+  <h3>Data backup</h3>
+  <p>See <a href="#backup">Backup &amp; restore</a>.</p>
+</section>
+
+<section id="privacy">
+  <h2>14. Privacy &amp; permissions</h2>
+  <p>Beekeeper's Journal works offline. No analytics, no advertising, no third-party tracking, no accounts. Records, photos, and locations are never transmitted off your device. The few network requests are: OpenStreetMap tile downloads when you open a map picker, and the device's built-in Geocoder when you ask for an address lookup.</p>
+
+  <h3>Permissions the app asks for</h3>
+  <table>
+    <tr><th>Permission</th><th>When</th><th>Why</th></tr>
+    <tr><td>Photo library</td><td>When you tap <em>Add photo</em> on an inspection</td><td>System photo picker — only the photo you choose is delivered.</td></tr>
+    <tr><td>ACCESS_FINE_LOCATION / COARSE</td><td>When you tap <em>Use my current location</em> on a hive's Location card</td><td>Reads the device's last-known location to drop a pin. Stored locally with the hive.</td></tr>
+    <tr><td>POST_NOTIFICATIONS (Android 13+)</td><td>First launch</td><td>Lets the app deliver local treatment and inspection reminders. No remote push.</td></tr>
+    <tr><td>CAMERA</td><td>When you tap <em>Scan hive QR</em></td><td>ZXing decodes a single QR locally. Frames aren't saved or transmitted.</td></tr>
+  </table>
+  <p>Full policy at <a href="https://thecloudix.github.io/BeeKeepers-Journal-Privacy/">thecloudix.github.io/BeeKeepers-Journal-Privacy</a>.</p>
+</section>
+
+<section id="troubleshoot">
+  <h2>15. Troubleshooting</h2>
+
+  <h3>"I imported a backup but my data isn't there."</h3>
+  <p>The backup applies on the <em>next cold start</em> of the app. If you didn't tap <em>Restart now</em> from the staged dialog, do that. If you tapped <em>Later</em>, fully close the app — tap <em>Close app</em> in the home top bar, or swipe it away from recents — then reopen. You should see a toast "Backup restored" when the apply runs. If you don't see the toast, the staged data may have been cleared; try the import again.</p>
+
+  <h3>"Edits I made on a sub-screen don't show up on the previous screen."</h3>
+  <p>This shouldn't happen as of 0.3.5 — the affected ViewModels were rewritten to observe the database reactively. If it still does, please report the screen and what you edited so I can take a look.</p>
+
+  <h3>"Notifications don't fire."</h3>
+  <ul>
+    <li>Open Android <em>Settings → Apps → Beekeeper's Journal → Notifications</em> and confirm both <em>Treatment reminders</em> and <em>Inspection reminders</em> channels are on.</li>
+    <li>If your device aggressively restricts battery for the app, schedules may be delayed or dropped. Toggle off battery optimization for this app.</li>
+  </ul>
+
+  <h3>"My QR doesn't scan to the right hive anymore."</h3>
+  <p>QRs encode the hive's current name. If you renamed the hive after printing the label, the old label won't scan to that hive. Reprint from Hive Settings → QR label.</p>
+
+  <h3>"I deleted a hive by mistake."</h3>
+  <p>There's no undo. If you have a recent backup ZIP, import it to restore everything to that point (this also replaces any data you've added since the backup).</p>
+</section>
+
+</main>
+</div>
+
+<footer class="site">
+  Beekeeper's Journal · Built by Christopher Wood · plainsightlogic@gmail.com
+</footer>
+
+</body>
+</html>
