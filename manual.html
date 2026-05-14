@@ -159,7 +159,7 @@
 
 <header class="site">
   <h1>Beekeeper's Journal — User Manual</h1>
-  <div class="sub">Version 0.3.14 · Android · Offline-first beekeeping notebook</div>
+  <div class="sub">Version 0.3.15 · Android · Offline-first beekeeping notebook</div>
 </header>
 
 <div class="wrap">
@@ -203,6 +203,9 @@
   <p>The home screen lists every hive you've added. Tap a hive's card to open its detail page.</p>
   <p>Both the <strong>Hives</strong> list and the <strong>Quick actions</strong> list are collapsible — tap a section header to fold it shut, tap again to reopen. Useful if you have a lot of hives and want quick actions in reach without scrolling. The collapsed state is remembered across app launches.</p>
 
+  <h3>Last-inspected badge</h3>
+  <p>Each hive card on the home screen carries a small colored chip in the top-right corner showing how long ago the hive was last inspected: <strong>green</strong> up to the amber threshold, <strong>amber</strong> up to the red threshold, <strong>red</strong> beyond, and a neutral chip ("Not yet") for hives that have never been inspected. Lets you triage a yard at a glance — red and amber chips are what need attention. Defaults are 14 / 28 days; both thresholds are configurable in <em>Settings → Hive freshness badge</em>.</p>
+
   <h3>Top bar icons</h3>
   <table>
     <tr><th>Icon</th><th>What it does</th></tr>
@@ -245,7 +248,7 @@
     <li><strong>Log feeding for this hive</strong></li>
     <li><strong>Log treatment for this hive</strong></li>
   </ul>
-  <p>If a next-inspection reminder is set for this hive (from the home screen Quick action), the date is shown as a small line under the log buttons.</p>
+  <p>If a next-inspection reminder is set for this hive (from the home screen Quick action), the date is shown as a small line under the log buttons. A <strong>Clear</strong> button next to that line cancels the schedule — for both one-shot and recurring reminders — and dismisses any banner that has already been posted to the tray.</p>
 
   <h3>Tabs</h3>
   <p>Inspections / Harvests / Feedings / Treatments. Each shows the count and lists every record for this hive. Tap a row to open its detail screen; the overflow menu on each row offers a Delete with confirmation.</p>
@@ -282,7 +285,7 @@
     <tr><td>Queen</td><td>Queen sighted, Queen status, <strong>Queen cells present</strong> checkbox, <strong>Queen cells — action</strong> dropdown (No action needed / Reduce cells / Swarm control needed / Potential supersedure cells / Kill queen / replace).</td></tr>
     <tr><td>Disease &amp; pest observations</td><td>Free-text. Tap <strong>Reference disease library</strong> to open a bottom sheet of curated entries; tapping a disease appends its name to the field and closes the sheet so you can keep typing.</td></tr>
     <tr><td>Actions taken</td><td>Free-text for treatments, splits, frame additions, etc.</td></tr>
-    <tr><td>Photos</td><td>Tap <em>Add photo</em> to attach images via the system photo picker. Each thumbnail has an <code>X</code> to remove it.</td></tr>
+    <tr><td>Photos</td><td>Tap <em>Add photo</em> to attach images via the system photo picker. Each thumbnail has an <code>X</code> to remove it. Photos are downscaled to a long-edge max of 2048 px and re-encoded as JPEG before being saved with the inspection — a typical 12 MP camera photo (4–8 MB) becomes ~250–500 KB on disk with no visible loss on a phone screen, keeping backup ZIPs and app storage manageable.</td></tr>
     <tr><td>Weather</td><td>Weather text (e.g. "sunny, light breeze") and Temperature °F. Tap <strong>Use current weather</strong> to auto-fill both fields from your device location — this sends only your latitude and longitude to <a href="https://open-meteo.com">Open-Meteo</a> (a free weather service) and only runs when you tap the button. Requires location permission. Lives at the bottom of the form so it's the last thing you fill in.</td></tr>
   </table>
 
@@ -397,12 +400,17 @@
   <h3>Tapping a notification</h3>
   <p>Tap a reminder banner and the app opens directly to the relevant place — <strong>inspection reminders</strong> land on that hive's detail page (handy when you have many colonies and don't want to scroll to find it), and <strong>treatment-dose reminders</strong> land on <em>Upcoming reminders</em> so you can confirm, skip, or open the hive from there. If the app was closed, it cold-starts and still routes to the right destination.</p>
   <p>Check the <strong>Repeat every N days</strong> box in the same dialog to set a recurring reminder — useful for routine 10- or 14-day inspections through the active season. Add an optional <strong>Until</strong> date so the recurrence stops automatically at the end of your season. Each firing automatically re-arms the next one; you don't have to reschedule manually.</p>
+  <p>To <strong>cancel</strong> a one-shot or recurring reminder before it (or its cutoff) is reached, open the hive's detail page and tap <em>Clear</em> next to the "Next inspection reminder" line under the log buttons.</p>
 
   <h3>What time does the reminder fire?</h3>
   <p>Both kinds fire at <strong>the same time of day you set them</strong>. If you scheduled at 3:14 PM today, the reminder fires at 3:14 PM on the chosen day. WorkManager (Android's job scheduler) can defer the actual firing by a few minutes — up to about 15 — when the device is in deep Doze. For "remind me on Thursday" that's invisible; for exact-minute precision, this app doesn't support that yet.</p>
 
   <h3>Permission</h3>
   <p>On Android 13+ the app requests <strong>POST_NOTIFICATIONS</strong> on first launch. If you deny it, schedules are still kept locally — pending doses stay in <em>Upcoming reminders</em>, the inspection date stays in Hive Settings — but no banner appears.</p>
+
+  <h3>Do Not Disturb</h3>
+  <p>If your phone is in Do Not Disturb mode when a reminder fires, it still lands in the notification tray but the sound, vibration, and heads-up banner are suppressed. After DND ends, the notification stays in the tray until you tap it.</p>
+  <p>Both reminder channels are tagged as <em>reminder-category</em>, which means if your DND configuration has "Allow reminders" enabled in the exceptions list, the notification will play sound and pop as heads-up even during DND. You can also override DND per-channel: Android Settings → Apps → Beekeeper's Journal → Notifications → <em>Inspection reminders</em> or <em>Treatment reminders</em> → <strong>Override Do Not Disturb</strong>.</p>
 
   <h3>Channels</h3>
   <p>Two notification channels exist so you can mute one independently in Android Settings → Apps → Beekeeper's Journal → Notifications. Both are set to high importance so reminders pop as a heads-up banner with sound — they won't sit silently in the tray.</p>
@@ -480,6 +488,9 @@
 
   <h3>Units</h3>
   <p>US (lb/oz, cups/pints/gal) or Metric (g/kg, mL/L). Affects the feed-recipe calculator and any quantity display.</p>
+
+  <h3>Hive freshness badge</h3>
+  <p>Configures the day thresholds for the colored chip on each hive card. <strong>Amber after</strong> is the day at which a hive flips from green to amber; <strong>Red after</strong> is the day at which it flips from amber to red. Defaults: 14 and 28. Red must be greater than amber. <em>Reset to 14 / 28</em> restores the defaults.</p>
 
   <h3>Data backup</h3>
   <p>See <a href="#backup">Backup &amp; restore</a>.</p>
