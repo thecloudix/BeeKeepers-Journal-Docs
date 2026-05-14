@@ -159,7 +159,7 @@
 
 <header class="site">
   <h1>Beekeeper's Journal — User Manual</h1>
-  <div class="sub">Version 0.3.12 · Android · Offline-first beekeeping notebook</div>
+  <div class="sub">Version 0.3.13 · Android · Offline-first beekeeping notebook</div>
 </header>
 
 <div class="wrap">
@@ -216,7 +216,7 @@
   <p>Below the hive list:</p>
   <ul>
     <li><strong>Scan hive QR</strong> — opens the camera scanner to read a printed hive QR. Lands you straight on that hive's detail page.</li>
-    <li><strong>Schedule next inspection</strong> — pick a date and check the hives the reminder should apply to. Lets you set the same reminder across many hives at once instead of one at a time. Any existing reminder on a selected hive is replaced.</li>
+    <li><strong>Schedule next inspection</strong> — pick a date and check the hives the reminder should apply to. Lets you set the same reminder across many hives at once instead of one at a time. Optionally enable <strong>Repeat every N days</strong> with an optional <strong>Until</strong> cutoff to set a recurring schedule for the active season. Any existing reminder on a selected hive is replaced.</li>
     <li><strong>Log inspection</strong> — opens the inspection form (you'll pick a hive inside).</li>
     <li><strong>Log harvest</strong> — opens the harvest form.</li>
     <li><strong>Feed recipes</strong> — opens the recipe list with the built-in calculator.</li>
@@ -282,7 +282,7 @@
     <tr><td>Disease &amp; pest observations</td><td>Free-text. Tap <strong>Reference disease library</strong> to open a bottom sheet of curated entries; tapping a disease appends its name to the field and closes the sheet so you can keep typing.</td></tr>
     <tr><td>Actions taken</td><td>Free-text for treatments, splits, frame additions, etc.</td></tr>
     <tr><td>Photos</td><td>Tap <em>Add photo</em> to attach images via the system photo picker. Each thumbnail has an <code>X</code> to remove it.</td></tr>
-    <tr><td>Weather</td><td>Weather text (e.g. "sunny, light breeze") and Temperature °F. Lives at the bottom of the form so it's the last thing you fill in.</td></tr>
+    <tr><td>Weather</td><td>Weather text (e.g. "sunny, light breeze") and Temperature °F. Tap <strong>Use current weather</strong> to auto-fill both fields from your device location — this sends only your latitude and longitude to <a href="https://open-meteo.com">Open-Meteo</a> (a free weather service) and only runs when you tap the button. Requires location permission. Lives at the bottom of the form so it's the last thing you fill in.</td></tr>
   </table>
 
   <h3>Editing an inspection</h3>
@@ -305,11 +305,12 @@
 
 <section id="feed">
   <h2>6. Feed recipes &amp; feedings</h2>
-  <p>Open <em>Feed recipes</em> from the home quick actions. Four curated recipes ship with the app:</p>
+  <p>Open <em>Feed recipes</em> from the home quick actions. Five curated recipes ship with the app:</p>
   <ul>
     <li><strong>1:1 sugar syrup</strong> (spring / summer stimulative)</li>
     <li><strong>2:1 sugar syrup</strong> (fall winter-prep)</li>
     <li><strong>Winter sugar block / candy board</strong> (winter emergency)</li>
+    <li><strong>Fondant (no-cook bee candy)</strong> (winter, queen cage)</li>
     <li><strong>Pollen substitute patty</strong> (early-spring build-up)</li>
   </ul>
 
@@ -391,6 +392,7 @@
 
   <h3>Next-inspection reminders</h3>
   <p>The <em>Schedule next inspection</em> Quick action on the home screen lets you pick a date and check one or more hives. The device fires a notification on that day for each selected hive. Scheduling for a hive that already has a reminder replaces the previous one.</p>
+  <p>Check the <strong>Repeat every N days</strong> box in the same dialog to set a recurring reminder — useful for routine 10- or 14-day inspections through the active season. Add an optional <strong>Until</strong> date so the recurrence stops automatically at the end of your season. Each firing automatically re-arms the next one; you don't have to reschedule manually.</p>
 
   <h3>What time does the reminder fire?</h3>
   <p>Both kinds fire at <strong>the same time of day you set them</strong>. If you scheduled at 3:14 PM today, the reminder fires at 3:14 PM on the chosen day. WorkManager (Android's job scheduler) can defer the actual firing by a few minutes — up to about 15 — when the device is in deep Doze. For "remind me on Thursday" that's invisible; for exact-minute precision, this app doesn't support that yet.</p>
